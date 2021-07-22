@@ -69,4 +69,12 @@ describe('CreateHeroService', () => {
     expect(result.nameAlreadyUsed).toBe(false)
     expect(result.rankAlreadyUsed).toBe(false)
   })
+
+  it('Should result.created return false if name is used', async () => {
+    checkHeroByNameRepository.checkByName.mockResolvedValueOnce(true)
+    const result = await sut.execute(hero)
+    expect(result.created).toBe(false)
+    expect(result.nameAlreadyUsed).toBe(true)
+    expect(result.rankAlreadyUsed).toBe(false)
+  })
 })
