@@ -38,4 +38,10 @@ describe('CreateHeroService', () => {
     expect(checkHeroByNameRepository.checkByName).toBeCalledWith(hero.name)
     expect(checkHeroByNameRepository.checkByName).toHaveBeenCalledTimes(1)
   })
+
+  it('Should throw if CheckHeroByNameRepository throws', async () => {
+    checkHeroByNameRepository.checkByName.mockRejectedValueOnce(throwError)
+    const promise = sut.execute(hero)
+    await expect(promise).rejects.toThrow()
+  })
 })
