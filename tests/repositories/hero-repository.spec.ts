@@ -37,12 +37,25 @@ describe('Hero Repository', () => {
   describe('checkByName()', () => {
     test('Should return true if name is already used', async () => {
       await heroCollection.insertOne(heroData)
-      const exists = await sut.checkByName('any_name')
+      const exists = await sut.checkByName(heroData.name)
       expect(exists).toBe(true)
     })
 
     test('Should return false if name is not used', async () => {
-      const exists = await sut.checkByName('any_name')
+      const exists = await sut.checkByName(heroData.name)
+      expect(exists).toBe(false)
+    })
+  })
+
+  describe('checkByRank()', () => {
+    test('Should return true if rank is already used', async () => {
+      await heroCollection.insertOne(heroData)
+      const exists = await sut.checkByRank(heroData.rank)
+      expect(exists).toBe(true)
+    })
+
+    test('Should return false if rank is not used', async () => {
+      const exists = await sut.checkByRank(heroData.rank)
       expect(exists).toBe(false)
     })
   })
