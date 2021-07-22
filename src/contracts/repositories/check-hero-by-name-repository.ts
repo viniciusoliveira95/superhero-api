@@ -1,5 +1,5 @@
 export interface ICheckHeroByNameRepository {
-  checkByName: (email: string) => Promise<ICheckHeroByNameRepository.Result>
+  checkByName: (name: string) => Promise<ICheckHeroByNameRepository.Result>
 }
 
 export namespace ICheckHeroByNameRepository {
