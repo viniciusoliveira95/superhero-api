@@ -21,6 +21,9 @@ describe('CreateHeroService', () => {
     checkHeroByNameRepository = mock()
     checkHeroByRankRepository = mock()
     sut = new CreateHeroService(createHeroRepository, checkHeroByNameRepository, checkHeroByRankRepository)
+    createHeroRepository.create.mockResolvedValue(false)
+    checkHeroByNameRepository.checkByName.mockResolvedValue(false)
+    checkHeroByRankRepository.checkByRank.mockResolvedValue(false)
   })
 
   it('Should call createHeroRepository with correct values', async () => {
@@ -57,5 +60,13 @@ describe('CreateHeroService', () => {
     checkHeroByRankRepository.checkByRank.mockRejectedValueOnce(throwError)
     const promise = sut.execute(hero)
     await expect(promise).rejects.toThrow()
+  })
+
+  it('Should result.created return true if name and rank is not used', async () => {
+    createHeroRepository.create.mockResolvedValueOnce(true)
+    const result = await sut.execute(hero)
+    expect(result.created).toBe(true)
+    expect(result.nameAlreadyUsed).toBe(false)
+    expect(result.rankAlreadyUsed).toBe(false)
   })
 })
