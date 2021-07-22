@@ -1,4 +1,4 @@
-import { ICheckHeroByNameRepository, ICreateHeroRepository } from '@/contracts/repositories'
+import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository } from '@/contracts/repositories'
 import { ICreateHero } from '@/contracts/services'
 import { CreateHeroService } from '@/services/create-hero-service'
 import { mock, MockProxy } from 'jest-mock-extended'
@@ -7,6 +7,7 @@ import { throwError } from '../helpers'
 describe('CreateHeroService', () => {
   let createHeroRepository: MockProxy<ICreateHeroRepository>
   let checkHeroByNameRepository: MockProxy<ICheckHeroByNameRepository>
+  let checkHeroByRankRepository: MockProxy<ICheckHeroByRankRepository>
   let sut: CreateHeroService
   const hero: ICreateHero.Params = {
     name: 'any_name',
@@ -18,7 +19,8 @@ describe('CreateHeroService', () => {
   beforeEach(() => {
     createHeroRepository = mock()
     checkHeroByNameRepository = mock()
-    sut = new CreateHeroService(createHeroRepository, checkHeroByNameRepository)
+    checkHeroByRankRepository = mock()
+    sut = new CreateHeroService(createHeroRepository, checkHeroByNameRepository, checkHeroByRankRepository)
   })
 
   it('Should call createHeroRepository with correct values', async () => {
@@ -43,5 +45,11 @@ describe('CreateHeroService', () => {
     checkHeroByNameRepository.checkByName.mockRejectedValueOnce(throwError)
     const promise = sut.execute(hero)
     await expect(promise).rejects.toThrow()
+  })
+
+  it('Should call CheckHeroByRankRepository with correct rank', async () => {
+    await sut.execute(hero)
+    expect(checkHeroByRankRepository.checkByRank).toBeCalledWith(hero.rank)
+    expect(checkHeroByRankRepository.checkByRank).toHaveBeenCalledTimes(1)
   })
 })
