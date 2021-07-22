@@ -1,8 +1,9 @@
 import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository } from '@/contracts/repositories'
 import { ICreateHero } from '@/contracts/services'
-import { CreateHeroService } from '@/services/create-hero-service'
+import { CreateHeroService } from '@/services'
+import { throwError } from '@/tests/helpers'
+
 import { mock, MockProxy } from 'jest-mock-extended'
-import { throwError } from '../helpers'
 
 describe('CreateHeroService', () => {
   let createHeroRepository: MockProxy<ICreateHeroRepository>

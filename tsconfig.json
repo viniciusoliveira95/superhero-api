@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDirs": ["src", "test"],
     "target": "es2021",
     "sourceMap": true,
     "skipLibCheck": true,
@@ -14,7 +14,8 @@
       "@/*": ["*"],
       "@/tests/*": ["../tests/*"]
     },
-    "strict": true
+    "strict": true,
+    "strictNullChecks": false
   },
   "include": ["src", "tests"]
 }
