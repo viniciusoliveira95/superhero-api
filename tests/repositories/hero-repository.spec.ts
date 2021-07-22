@@ -40,5 +40,10 @@ describe('Hero Repository', () => {
       const exists = await sut.checkByName('any_name')
       expect(exists).toBe(true)
     })
+
+    test('Should return false if name is not used', async () => {
+      const exists = await sut.checkByName('any_name')
+      expect(exists).toBe(false)
+    })
   })
 })
