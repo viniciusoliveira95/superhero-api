@@ -24,6 +24,7 @@
     "rimraf": "^3.0.2"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^2.0.1",
     "@types/jest": "^26.0.24",
     "@types/module-alias": "^2.0.1",
     "@types/mongodb": "^3.6.20",

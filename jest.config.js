@@ -10,6 +10,7 @@ module.exports = {
     '<rootDir>/src',
     '<rootDir>/tests'
   ],
+  preset: '@shelf/jest-mongodb',
   transform: {
     '\\.ts$': 'ts-jest'
   }
