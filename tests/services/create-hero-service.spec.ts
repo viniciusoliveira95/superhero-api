@@ -52,4 +52,10 @@ describe('CreateHeroService', () => {
     expect(checkHeroByRankRepository.checkByRank).toBeCalledWith(hero.rank)
     expect(checkHeroByRankRepository.checkByRank).toHaveBeenCalledTimes(1)
   })
+
+  it('Should throw if CheckHeroByRankRepository throws', async () => {
+    checkHeroByRankRepository.checkByRank.mockRejectedValueOnce(throwError)
+    const promise = sut.execute(hero)
+    await expect(promise).rejects.toThrow()
+  })
 })
