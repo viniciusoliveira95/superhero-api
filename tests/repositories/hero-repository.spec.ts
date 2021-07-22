@@ -33,4 +33,12 @@ describe('Hero Repository', () => {
       expect(created).toBe(true)
     })
   })
+
+  describe('checkByName()', () => {
+    test('Should return true if name is already used', async () => {
+      await heroCollection.insertOne(heroData)
+      const exists = await sut.checkByName('any_name')
+      expect(exists).toBe(true)
+    })
+  })
 })
