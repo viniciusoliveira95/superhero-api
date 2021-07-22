@@ -10,5 +10,9 @@ export namespace ICreateHero {
     active: boolean
   }
 
-  export type Result = boolean
+  export type Result = {
+    created: boolean
+    nameAlreadyUsed: boolean
+    rankAlreadyUsed: boolean
+  }
 }
