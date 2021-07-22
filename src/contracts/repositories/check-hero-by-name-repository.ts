@@ -1,7 +1,8 @@
 export interface ICheckHeroByNameRepository {
-  checkByName: (name: string) => Promise<ICheckHeroByNameRepository.Result>
+  checkByName: (name: ICheckHeroByNameRepository.Params) => Promise<ICheckHeroByNameRepository.Result>
 }
 
 export namespace ICheckHeroByNameRepository {
+  export type Params = string
   export type Result = boolean
 }
