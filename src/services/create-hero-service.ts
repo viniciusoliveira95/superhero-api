@@ -16,7 +16,7 @@ export class CreateHeroService implements ICreateHero {
     }
     result.nameAlreadyUsed = await this.checkHeroByNameRepository.checkByName(heroParam.name)
     result.rankAlreadyUsed = await this.checkHeroByRankRepository.checkByRank(heroParam.rank)
-    if (!result.nameAlreadyUsed || !result.rankAlreadyUsed) {
+    if (!result.nameAlreadyUsed && !result.rankAlreadyUsed) {
       result.created = await this.createHeroRepository.create(heroParam)
     }
     return result
