@@ -2,12 +2,14 @@ import { CreateHeroController } from '@/controllers/hero'
 import { ICreateHero } from '@/contracts/services'
 import { ServerError, PropertyInUseError } from '@/errors'
 import { forbidden, noContent, serverError } from '@/controllers/http-helper'
+import { IHeroRequestValidation } from 'contracts/validations'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 
 describe('CreateHero Controller', () => {
   let sut: CreateHeroController
   let createHeroService: MockProxy<ICreateHero>
+  let heroRequestValidation: MockProxy<IHeroRequestValidation>
   const params: CreateHeroController.Request = {
     name: 'any_name',
     description: 'any_description',
@@ -22,7 +24,8 @@ describe('CreateHero Controller', () => {
 
   beforeEach(() => {
     createHeroService = mock()
-    sut = new CreateHeroController(createHeroService)
+    heroRequestValidation = mock()
+    sut = new CreateHeroController(createHeroService, heroRequestValidation)
   })
 
   it('Should call service execute with correct values', async () => {
@@ -58,5 +61,10 @@ describe('CreateHero Controller', () => {
     createHeroService.execute.mockResolvedValueOnce({ ...serviceResponse, nameAlreadyUsed: true, rankAlreadyUsed: true })
     const httpResponse = await sut.handle(params)
     expect(httpResponse).toEqual(forbidden(new PropertyInUseError(['name', 'rank'])))
+  })
+
+  it('Should call heroRequestValidation with correct values', async () => {
+    await sut.handle(params)
+    expect(heroRequestValidation.validate).toBeCalledWith(params)
   })
 })
