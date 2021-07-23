@@ -7,7 +7,11 @@ ICheckHeroByNameRepository,
 ICheckHeroByRankRepository {
   async create (heroData: ICreateHeroRepository.Params): Promise<ICreateHeroRepository.Result> {
     const heroCollection = await MongoHelper.getCollection('heroes')
-    const result = await heroCollection.insertOne(heroData)
+    const result = await heroCollection.insertOne({
+      ...heroData,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
     return result.ops[0] !== null
   }
 
