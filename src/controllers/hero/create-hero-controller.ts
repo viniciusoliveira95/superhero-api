@@ -3,7 +3,7 @@ import { HttpResponse } from '@/contracts/http/http'
 import { ICreateHero } from '@/contracts/services'
 import { IHeroRequestValidation } from '@/contracts/validations'
 import { PropertyInUseError } from '@/errors/property-in-use-error'
-import { forbidden, noContent, serverError } from '../http-helper'
+import { badRequest, forbidden, noContent, serverError } from '../http-helper'
 
 export class CreateHeroController implements IController {
   constructor (
@@ -13,7 +13,10 @@ export class CreateHeroController implements IController {
 
   async handle (request: CreateHeroController.Request): Promise<HttpResponse> {
     try {
-      this.heroRequestValidation.validate(request)
+      const requestValidationError = this.heroRequestValidation.validate(request)
+      if (requestValidationError) {
+        return badRequest(requestValidationError)
+      }
       const response = await this.createHeroService.execute(request)
       if (response.nameAlreadyUsed || response.rankAlreadyUsed) {
         const propertiesName: string[] = []

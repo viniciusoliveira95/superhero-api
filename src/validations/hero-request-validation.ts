@@ -36,7 +36,9 @@ export class HeroRequestValidation implements IHeroRequestValidation {
       }
     }
 
-    return new ParamError(error)
+    if (error.length > 0) {
+      return new ParamError(error)
+    }
   }
 
   private paramMissing (paramName: string): string {
