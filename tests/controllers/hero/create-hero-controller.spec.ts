@@ -1,7 +1,7 @@
 import { CreateHeroController } from '@/controllers/hero'
 import { ICreateHero } from '@/contracts/services'
-import { ServerError, PropertyInUseError } from '@/errors'
-import { forbidden, noContent, serverError } from '@/controllers/http-helper'
+import { ServerError, PropertyInUseError, ParamError } from '@/errors'
+import { badRequest, forbidden, noContent, serverError } from '@/controllers/http-helper'
 import { IHeroRequestValidation } from 'contracts/validations'
 
 import { mock, MockProxy } from 'jest-mock-extended'
@@ -66,5 +66,11 @@ describe('CreateHero Controller', () => {
   it('Should call heroRequestValidation with correct values', async () => {
     await sut.handle(params)
     expect(heroRequestValidation.validate).toBeCalledWith(params)
+  })
+
+  it('Should return 400 if validation returns an error', async () => {
+    heroRequestValidation.validate.mockReturnValueOnce(new ParamError(['any_field']))
+    const httpResponse = await sut.handle(params)
+    expect(httpResponse).toEqual(badRequest(new ParamError(['any_field'])))
   })
 })
