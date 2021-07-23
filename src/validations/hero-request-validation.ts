@@ -2,7 +2,7 @@ import { IHeroRequestValidation } from '@/contracts/validations/hero-request-val
 import { ParamError } from '@/errors'
 
 export class HeroRequestValidation implements IHeroRequestValidation {
-  validate (request: IHeroRequestValidation.Params): Error {
+  validate (request: any): Error {
     const error: string[] = []
     if (!request.name) {
       error.push(this.paramMissing('name'))
