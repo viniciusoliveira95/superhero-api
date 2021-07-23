@@ -5,7 +5,7 @@ import { mock, MockProxy } from 'jest-mock-extended'
 describe('CreateHero Controller', () => {
   let sut: CreateHeroController
   let createHeroService: MockProxy<ICreateHero>
-  const params = {
+  const params: CreateHeroController.Request = {
     name: 'any_name',
     description: 'any_description',
     rank: 1,
