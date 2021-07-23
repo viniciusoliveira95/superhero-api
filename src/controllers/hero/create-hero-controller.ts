@@ -2,7 +2,7 @@ import { IController } from '@/contracts/controllers/controller'
 import { HttpResponse } from '@/contracts/http/http'
 import { ICreateHero } from '@/contracts/services'
 import { PropertyInUseError } from '@/errors/property-in-use-error'
-import { forbidden, serverError } from '../http-helper'
+import { forbidden, noContent, serverError } from '../http-helper'
 
 export class CreateHeroController implements IController {
   constructor (
@@ -18,9 +18,8 @@ export class CreateHeroController implements IController {
         response.rankAlreadyUsed && propertiesName.push('rank')
         return forbidden(new PropertyInUseError(propertiesName))
       }
-      return {
-        statusCode: 200,
-        body: {}
+      if (response.created) {
+        return noContent()
       }
     } catch (error) {
       return serverError(error)
