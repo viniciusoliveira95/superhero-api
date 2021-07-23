@@ -1,7 +1,7 @@
 import { CreateHeroController } from '@/controllers/hero'
 import { ICreateHero } from '@/contracts/services'
 import { ServerError, PropertyInUseError } from '@/errors'
-import { forbidden, serverError } from '@/controllers/http-helper'
+import { forbidden, noContent, serverError } from '@/controllers/http-helper'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 
@@ -28,6 +28,12 @@ describe('CreateHero Controller', () => {
   it('Should call service execute with correct values', async () => {
     await sut.handle(params)
     expect(createHeroService.execute).toBeCalledWith(params)
+  })
+
+  it('Should return 204 if created is true', async () => {
+    createHeroService.execute.mockResolvedValueOnce({ ...serviceResponse, created: true })
+    const httpResponse = await sut.handle(params)
+    expect(httpResponse).toEqual(noContent())
   })
 
   it('Should return 500 if service execute throws', async () => {
