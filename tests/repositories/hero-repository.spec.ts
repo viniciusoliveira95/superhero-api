@@ -129,4 +129,17 @@ describe('Hero Repository', () => {
       expect(hero).toBe(null)
     })
   })
+
+  describe('deleteById()', () => {
+    it('Should return true when hero is deleted', async () => {
+      const res = await heroCollection.insertOne(heroData)
+      const isDeleted = await sut.deleteById(res.ops[0]._id)
+      expect(isDeleted).toBe(true)
+    })
+
+    it('Should return false when not find a hero to delete', async () => {
+      const hero = await sut.deleteById(new FakeObjectId().toHexString())
+      expect(hero).toBe(false)
+    })
+  })
 })
