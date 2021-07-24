@@ -113,4 +113,14 @@ describe('Hero Repository', () => {
       expect(heroes[0].powerstats).toEqual({})
     })
   })
+
+  describe('loadById()', () => {
+    it('Should return a hero if hero exists', async () => {
+      const res = await heroCollection.insertOne(heroData)
+      const hero = await sut.loadById(res.ops[0]._id)
+      expect(hero.id).toEqual(res.ops[0]._id)
+      expect(hero.name).toEqual(res.ops[0].name)
+      expect(hero.description).toEqual(res.ops[0].description)
+    })
+  })
 })
