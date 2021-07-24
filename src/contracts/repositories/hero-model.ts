@@ -6,5 +6,5 @@ export type HeroModel = {
   active: boolean
   createdAt: Date
   updatedAt: Date
-  powerstats: Object
+  powerstats: any
 }

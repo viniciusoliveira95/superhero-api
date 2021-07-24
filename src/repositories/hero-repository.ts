@@ -41,10 +41,34 @@ ILoadAllHeroRepository {
     const heroCollection = await MongoHelper.getCollection('heroes')
     const query = new QueryBuilder()
       .lookup({
-        from: 'powerstars',
-        foreignField: 'heroeId',
+        from: 'powerstats',
+        foreignField: 'heroId',
         localField: '_id',
         as: 'result'
+      })
+      .project({
+        _id: 1,
+        name: 1,
+        description: 1,
+        rank: 1,
+        active: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        powerstats: {
+          $arrayToObject: {
+            $map: {
+              input: '$result',
+              as: 'item',
+              in: [
+                '$$item.name',
+                '$$item.value'
+              ]
+            }
+          }
+        }
+      })
+      .sort({
+        name: 1
       })
       .build()
     const heroes = await heroCollection.aggregate(query).toArray()
