@@ -1,9 +1,10 @@
 import { LoadAllHeroesController } from '@/controllers/hero'
 import { ILoadAllHeores } from '@/contracts/services'
-import { noContent, ok } from '@/controllers/http-helper'
+import { noContent, ok, serverError } from '@/controllers/http-helper'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 import { mockHeroesModel } from '../../mocks'
+import { throwError } from '../../test-helpers'
 
 describe('LoadAllHeroes Controller', () => {
   let sut: LoadAllHeroesController
@@ -29,5 +30,11 @@ describe('LoadAllHeroes Controller', () => {
     loadAllHeroesService.execute.mockResolvedValueOnce([])
     const httpResponse = await sut.handle()
     expect(httpResponse).toEqual(noContent())
+  })
+
+  it('Should return 500 if loadAllHeroesService throws', async () => {
+    loadAllHeroesService.execute.mockRejectedValueOnce(throwError)
+    const httpResponse = await sut.handle()
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
