@@ -22,7 +22,7 @@ describe('LoadHeroByIdService', () => {
 
   it('Should throw if loadHeroByIdRepository throws', async () => {
     loadHeroByIdRepository.loadById.mockRejectedValueOnce(throwError)
-    const promise = sut.execute('any_ud')
+    const promise = sut.execute('any_id')
     await expect(promise).rejects.toThrow()
   })
 
