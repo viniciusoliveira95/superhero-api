@@ -73,4 +73,20 @@ describe('Hero Routes', () => {
         .expect(200)
     })
   })
+
+  describe('DELETE /heroes/:heroId', () => {
+    it('Should reuturn 403 when heroId is invalid', async () => {
+      await request(app)
+        .delete(`/api/heroes/${new FakeObjectId().toHexString()}`)
+        .expect(403)
+    })
+
+    it('Should reuturn 204 on success', async () => {
+      const hero = await heroesCollection.insertOne(heroData)
+      const heroId: string = hero.ops[0]._id
+      await request(app)
+        .delete(`/api/heroes/${heroId}`)
+        .expect(204)
+    })
+  })
 })
