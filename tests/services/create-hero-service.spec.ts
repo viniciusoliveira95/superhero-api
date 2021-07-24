@@ -1,6 +1,6 @@
 import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository } from '@/contracts/repositories/hero'
 import { ICreateHero } from '@/contracts/services/hero'
-import { CreateHeroService } from '@/services'
+import { CreateHeroService } from '@/services/hero'
 import { throwError } from '@/../tests/test-helpers'
 
 import { mock, MockProxy } from 'jest-mock-extended'

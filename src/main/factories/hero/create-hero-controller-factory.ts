@@ -1,7 +1,7 @@
 import { IController } from '@/contracts/controllers'
 import { CreateHeroController } from '@/controllers/hero'
 import { HeroRepository } from '@/repositories'
-import { CreateHeroService } from '@/services'
+import { CreateHeroService } from '@/services/hero'
 import { HeroRequestValidation } from '@/validations'
 
 export const makeCreateHeroController = (): IController => {
