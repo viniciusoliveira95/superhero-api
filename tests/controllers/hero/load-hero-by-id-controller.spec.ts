@@ -10,6 +10,9 @@ import { throwError } from '../../test-helpers'
 describe('LoadHeroById Controller', () => {
   let sut: LoadHeroByIdController
   let loadHeroByIdService: MockProxy<ILoadHeroById>
+  const request: LoadHeroByIdController.Request = {
+    heroId: 'any_id'
+  }
 
   beforeEach(() => {
     loadHeroByIdService = mock()
@@ -17,26 +20,26 @@ describe('LoadHeroById Controller', () => {
   })
 
   it('Should call service execute with correct value', async () => {
-    await sut.handle('any_id')
+    await sut.handle(request)
     expect(loadHeroByIdService.execute).toHaveBeenCalledTimes(1)
     expect(loadHeroByIdService.execute).toHaveBeenLastCalledWith('any_id')
   })
 
   it('Should return 200 on success', async () => {
     loadHeroByIdService.execute.mockResolvedValueOnce(mockHeroModel())
-    const httpResponse = await sut.handle('any_id')
+    const httpResponse = await sut.handle(request)
     expect(httpResponse).toEqual(ok(mockHeroModel()))
   })
 
   it('Should return 403 if loadHeroByIdService returns null', async () => {
     loadHeroByIdService.execute.mockResolvedValueOnce(null)
-    const httpResponse = await sut.handle('invalid_id')
+    const httpResponse = await sut.handle(request)
     expect(httpResponse).toEqual(forbidden(new ParamError(['heroId'])))
   })
 
   it('Should return 500 if loadHeroByIdService throws', async () => {
     loadHeroByIdService.execute.mockRejectedValueOnce(throwError)
-    const httpResponse = await sut.handle('any_id')
+    const httpResponse = await sut.handle(request)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 })

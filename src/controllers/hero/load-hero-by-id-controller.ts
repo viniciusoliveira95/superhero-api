@@ -7,9 +7,9 @@ import { forbidden, ok, serverError } from '../http-helper'
 export class LoadHeroByIdController implements IController {
   constructor (private readonly loadByIdHeroService: ILoadHeroById) {}
 
-  async handle (id: string): Promise<HttpResponse> {
+  async handle (request: LoadHeroByIdController.Request): Promise<HttpResponse> {
     try {
-      const hero = await this.loadByIdHeroService.execute(id)
+      const hero = await this.loadByIdHeroService.execute(request.heroId)
       if (!hero) {
         return forbidden(new ParamError(['heroId']))
       }
@@ -17,5 +17,11 @@ export class LoadHeroByIdController implements IController {
     } catch (error) {
       return serverError(error)
     }
+  }
+}
+
+export namespace LoadHeroByIdController {
+  export type Request = {
+    heroId: string
   }
 }

@@ -5,4 +5,5 @@ import { Router } from 'express'
 export default (router: Router): void => {
   router.post('/heroes', adaptRoute(makeCreateHeroController()))
   router.get('/heroes', adaptRoute(makeLoadAllHeroesController()))
+  router.get('/heroes/:heroId', adaptRoute(makeLoadAllHeroesController()))
 }
