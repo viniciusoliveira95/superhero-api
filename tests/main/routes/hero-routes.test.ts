@@ -3,9 +3,18 @@ import { MongoHelper } from '@/repositories'
 
 import { Collection } from 'mongodb'
 import request from 'supertest'
+import FakeObjectId from 'bson-objectid'
 
 describe('Hero Routes', () => {
   let heroesCollection: Collection
+  const heroData = {
+    name: 'any_name',
+    description: 'any_description',
+    rank: 1,
+    active: true,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
 
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -42,16 +51,25 @@ describe('Hero Routes', () => {
     })
 
     it('Should reuturn 200 on success', async () => {
-      await heroesCollection.insertOne({
-        name: 'any_name',
-        description: 'any_description',
-        rank: 1,
-        active: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
+      await heroesCollection.insertOne(heroData)
       await request(app)
         .get('/api/heroes')
+        .expect(200)
+    })
+  })
+
+  describe('GET /heroes/:heroId', () => {
+    it('Should reuturn 403 when heroId is invalid', async () => {
+      await request(app)
+        .get(`/api/heroes/${new FakeObjectId().toHexString()}`)
+        .expect(403)
+    })
+
+    it('Should reuturn 200 on success', async () => {
+      const hero = await heroesCollection.insertOne(heroData)
+      const heroId: string = hero.ops[0]._id
+      await request(app)
+        .get(`/api/heroes/${heroId}`)
         .expect(200)
     })
   })
