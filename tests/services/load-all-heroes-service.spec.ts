@@ -14,7 +14,7 @@ describe('LoadAllHeroesService', () => {
     sut = new LoadAllHeroesService(loadAllHeroesRepository)
   })
 
-  it('Should call createHeroRepository with correct values', async () => {
+  it('Should call createHeroRepository', async () => {
     await sut.execute()
     expect(loadAllHeroesRepository.loadAll).toHaveBeenCalledTimes(1)
   })
