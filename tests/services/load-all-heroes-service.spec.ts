@@ -1,4 +1,5 @@
 import { throwError } from '@/tests/test-helpers'
+import { mockHeroesModel } from '@/tests/mocks/mock-hero'
 import { ILoadAllHeroesRepository } from '@/contracts/repositories'
 import { LoadAllHeroesService } from '@/services'
 
@@ -25,36 +26,8 @@ describe('LoadAllHeroesService', () => {
   })
 
   it('Should return a list of Heroes on success', async () => {
-    const heroesModel: ILoadAllHeroesRepository.Result = [
-      {
-        id: 'any_id',
-        name: 'any_name',
-        description: 'any_description',
-        active: true,
-        rank: 1,
-        createdAt: new Date(2021, 7, 24),
-        updatedAt: new Date(2021, 7, 25),
-        powerstats: {
-          power: 99,
-          intelligence: 60
-        }
-      },
-      {
-        id: 'other_id',
-        name: 'other_name',
-        description: 'other_description',
-        active: true,
-        rank: 2,
-        createdAt: new Date(2021, 6, 23),
-        updatedAt: new Date(2021, 6, 24),
-        powerstats: {
-          power: 99,
-          intelligence: 60
-        }
-      }
-    ]
-    loadAllHeroesRepository.loadAll.mockResolvedValueOnce(heroesModel)
+    loadAllHeroesRepository.loadAll.mockResolvedValueOnce(mockHeroesModel())
     const heroes = await sut.execute()
-    await expect(heroes).toEqual(heroesModel)
+    await expect(heroes).toEqual(mockHeroesModel())
   })
 })
