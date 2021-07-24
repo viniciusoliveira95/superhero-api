@@ -1,4 +1,4 @@
-import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository, ILoadAllHeroRepository } from '@/contracts/repositories'
+import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository, ILoadAllHeroesRepository } from '@/contracts/repositories'
 import { QueryBuilder } from '@/contracts/repositories/query-builder'
 import { MongoHelper } from './mongo-helper'
 
@@ -6,7 +6,7 @@ export class HeroRepository implements
 ICreateHeroRepository,
 ICheckHeroByNameRepository,
 ICheckHeroByRankRepository,
-ILoadAllHeroRepository {
+ILoadAllHeroesRepository {
   async create (heroData: ICreateHeroRepository.Params): Promise<ICreateHeroRepository.Result> {
     const heroCollection = await MongoHelper.getCollection('heroes')
     const result = await heroCollection.insertOne({
@@ -37,7 +37,7 @@ ILoadAllHeroRepository {
     return hero !== null
   }
 
-  async loadAll (): Promise<ILoadAllHeroRepository.Result> {
+  async loadAll (): Promise<ILoadAllHeroesRepository.Result> {
     const heroCollection = await MongoHelper.getCollection('heroes')
     const query = new QueryBuilder()
       .lookup({
