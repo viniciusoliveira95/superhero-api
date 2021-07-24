@@ -1,4 +1,12 @@
-import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository, ILoadAllHeroesRepository, ILoadHeroByIdRepository } from '@/contracts/repositories/hero'
+import {
+  ICheckHeroByNameRepository,
+  ICheckHeroByRankRepository,
+  ICreateHeroRepository,
+  ILoadAllHeroesRepository,
+  ILoadHeroByIdRepository,
+  IDeleteHeroByIdRepository
+}
+  from '@/contracts/repositories/hero'
 import { QueryBuilder } from '@/contracts/repositories/query-builder'
 import { MongoHelper } from './mongo-helper'
 
@@ -9,7 +17,8 @@ ICreateHeroRepository,
 ICheckHeroByNameRepository,
 ICheckHeroByRankRepository,
 ILoadAllHeroesRepository,
-ILoadHeroByIdRepository {
+ILoadHeroByIdRepository,
+IDeleteHeroByIdRepository {
   async create (heroData: ICreateHeroRepository.Params): Promise<ICreateHeroRepository.Result> {
     const heroCollection = await MongoHelper.getCollection('heroes')
     const result = await heroCollection.insertOne({
@@ -38,6 +47,12 @@ ILoadHeroByIdRepository {
       }
     })
     return hero !== null
+  }
+
+  async deleteById (id: string): Promise<IDeleteHeroByIdRepository.Result> {
+    const heroCollection = await MongoHelper.getCollection('heroes')
+    const isDeleted = await heroCollection.findOneAndDelete({ _id: new ObjectID(id) })
+    return isDeleted.value !== null
   }
 
   async loadAll (): Promise<ILoadAllHeroesRepository.Result> {
