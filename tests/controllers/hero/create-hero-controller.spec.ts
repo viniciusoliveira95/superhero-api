@@ -1,5 +1,5 @@
 import { CreateHeroController } from '@/controllers/hero'
-import { ICreateHero } from '@/contracts/services'
+import { ICreateHero } from '@/contracts/services/hero'
 import { ServerError, PropertyInUseError, ParamError } from '@/errors'
 import { badRequest, forbidden, noContent, serverError } from '@/controllers/http-helper'
 import { IHeroRequestValidation } from 'contracts/validations'

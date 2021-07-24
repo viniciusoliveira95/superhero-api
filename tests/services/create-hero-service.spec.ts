@@ -1,5 +1,5 @@
-import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository } from '@/contracts/repositories'
-import { ICreateHero } from '@/contracts/services'
+import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository } from '@/contracts/repositories/hero'
+import { ICreateHero } from '@/contracts/services/hero'
 import { CreateHeroService } from '@/services'
 import { throwError } from '@/../tests/test-helpers'
 

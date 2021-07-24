@@ -1,6 +1,6 @@
 import { IController } from '@/contracts/controllers/controller'
 import { HttpResponse } from '@/contracts/http/http'
-import { ILoadHeroById } from '@/contracts/services'
+import { ILoadHeroById } from '@/contracts/services/hero'
 import { ParamError } from '@/errors'
 import { forbidden, ok, serverError } from '../http-helper'
 

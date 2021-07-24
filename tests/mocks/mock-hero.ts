@@ -1,4 +1,4 @@
-import { HeroModel } from '@/contracts/repositories'
+import { HeroModel } from '@/contracts/models'
 
 export const mockHeroModel = (): HeroModel => ({
   id: 'any_id',

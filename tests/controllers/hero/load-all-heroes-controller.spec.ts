@@ -1,5 +1,5 @@
 import { LoadAllHeroesController } from '@/controllers/hero'
-import { ILoadAllHeores } from '@/contracts/services'
+import { ILoadAllHeores } from '@/contracts/services/hero'
 import { noContent, ok, serverError } from '@/controllers/http-helper'
 
 import { mock, MockProxy } from 'jest-mock-extended'

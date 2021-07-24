@@ -1,6 +1,6 @@
 import { IController } from '@/contracts/controllers/controller'
 import { HttpResponse } from '@/contracts/http/http'
-import { ILoadAllHeores } from '@/contracts/services'
+import { ILoadAllHeores } from '@/contracts/services/hero'
 import { noContent, ok, serverError } from '../http-helper'
 
 export class LoadAllHeroesController implements IController {

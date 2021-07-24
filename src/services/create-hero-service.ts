@@ -1,5 +1,5 @@
-import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository } from '@/contracts/repositories'
-import { ICreateHero } from '@/contracts/services/create-hero'
+import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository } from '@/contracts/repositories/hero'
+import { ICreateHero } from '@/contracts/services/hero'
 
 export class CreateHeroService implements ICreateHero {
   constructor (

@@ -1,6 +1,6 @@
 import { throwError } from '@/tests/test-helpers'
 import { mockHeroesModel } from '@/tests/mocks/mock-hero'
-import { ILoadAllHeroesRepository } from '@/contracts/repositories'
+import { ILoadAllHeroesRepository } from '@/contracts/repositories/hero'
 import { LoadAllHeroesService } from '@/services'
 
 import { mock, MockProxy } from 'jest-mock-extended'

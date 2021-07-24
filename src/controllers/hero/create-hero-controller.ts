@@ -1,6 +1,6 @@
 import { IController } from '@/contracts/controllers/controller'
 import { HttpResponse } from '@/contracts/http/http'
-import { ICreateHero } from '@/contracts/services'
+import { ICreateHero } from '@/contracts/services/hero'
 import { IHeroRequestValidation } from '@/contracts/validations'
 import { PropertyInUseError } from '@/errors/property-in-use-error'
 import { badRequest, forbidden, noContent, serverError } from '../http-helper'

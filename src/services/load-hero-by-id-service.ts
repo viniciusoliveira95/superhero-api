@@ -1,5 +1,5 @@
-import { ILoadHeroByIdRepository } from '@/contracts/repositories'
-import { ILoadHeroById } from '@/contracts/services'
+import { ILoadHeroByIdRepository } from '@/contracts/repositories/hero'
+import { ILoadHeroById } from '@/contracts/services/hero'
 
 export class LoadHeroByIdService implements ILoadHeroById {
   constructor (

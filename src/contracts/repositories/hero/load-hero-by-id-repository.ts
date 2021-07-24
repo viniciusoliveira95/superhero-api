@@ -1,4 +1,4 @@
-import { HeroModel } from './hero-model'
+import { HeroModel } from '@/contracts/models/hero-model'
 
 export interface ILoadHeroByIdRepository {
   loadById: (id: string) => Promise<ILoadHeroByIdRepository.Result>

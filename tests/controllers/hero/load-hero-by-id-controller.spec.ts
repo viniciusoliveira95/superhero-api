@@ -1,5 +1,5 @@
 import { LoadHeroByIdController } from '@/controllers/hero'
-import { ILoadHeroById } from '@/contracts/services'
+import { ILoadHeroById } from '@/contracts/services/hero'
 import { forbidden, ok, serverError } from '@/controllers/http-helper'
 import { ParamError } from '@/errors'
 

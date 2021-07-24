@@ -1,4 +1,4 @@
-import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository, ILoadAllHeroesRepository, ILoadHeroByIdRepository } from '@/contracts/repositories'
+import { ICheckHeroByNameRepository, ICheckHeroByRankRepository, ICreateHeroRepository, ILoadAllHeroesRepository, ILoadHeroByIdRepository } from '@/contracts/repositories/hero'
 import { QueryBuilder } from '@/contracts/repositories/query-builder'
 import { MongoHelper } from './mongo-helper'
 

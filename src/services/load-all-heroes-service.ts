@@ -1,5 +1,5 @@
-import { ILoadAllHeroesRepository } from '@/contracts/repositories'
-import { ILoadAllHeores } from '@/contracts/services'
+import { ILoadAllHeroesRepository } from '@/contracts/repositories/hero'
+import { ILoadAllHeores } from '@/contracts/services/hero'
 
 export class LoadAllHeroesService implements ILoadAllHeores {
   constructor (

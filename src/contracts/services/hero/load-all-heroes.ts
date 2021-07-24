@@ -1,4 +1,4 @@
-import { HeroModel } from '@/contracts/repositories'
+import { HeroModel } from '@/contracts/models'
 
 export interface ILoadAllHeores {
   execute: () => Promise<ILoadAllHeores.Result>
