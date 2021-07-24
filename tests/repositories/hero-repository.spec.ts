@@ -1,6 +1,7 @@
 import { HeroRepository, MongoHelper } from '@/repositories'
 
 import { Collection } from 'mongodb'
+import FakeObjectId from 'bson-objectid'
 
 describe('Hero Repository', () => {
   let heroCollection: Collection
@@ -121,6 +122,11 @@ describe('Hero Repository', () => {
       expect(hero.id).toEqual(res.ops[0]._id)
       expect(hero.name).toEqual(res.ops[0].name)
       expect(hero.description).toEqual(res.ops[0].description)
+    })
+
+    it('Should return null if hero does not exists', async () => {
+      const hero = await sut.loadById(new FakeObjectId().toHexString())
+      expect(hero).toBe(null)
     })
   })
 })
