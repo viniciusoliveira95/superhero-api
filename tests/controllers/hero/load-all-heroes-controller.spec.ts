@@ -1,6 +1,6 @@
 import { LoadAllHeroesController } from '@/controllers/hero'
 import { ILoadAllHeores } from '@/contracts/services'
-import { ok } from '@/controllers/http-helper'
+import { noContent, ok } from '@/controllers/http-helper'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 import { mockHeroesModel } from '../../mocks'
@@ -18,9 +18,16 @@ describe('LoadAllHeroes Controller', () => {
     await sut.handle()
     expect(loadAllHeroesService.execute).toHaveBeenCalledTimes(1)
   })
+
   it('Should return 200 on success', async () => {
     loadAllHeroesService.execute.mockResolvedValueOnce(mockHeroesModel())
     const httpResponse = await sut.handle()
     expect(httpResponse).toEqual(ok(mockHeroesModel()))
+  })
+
+  it('Should return 204 if loadAllHeroesService returns empty', async () => {
+    loadAllHeroesService.execute.mockResolvedValueOnce([])
+    const httpResponse = await sut.handle()
+    expect(httpResponse).toEqual(noContent())
   })
 })
