@@ -7,7 +7,6 @@ export class LoadAllHeroesService implements ILoadAllHeores {
   ) {}
 
   async execute (): Promise<ILoadAllHeores.Result> {
-    await this.loadAllHeroRepository.loadAll()
-    return null
+    return await this.loadAllHeroRepository.loadAll()
   }
 }
