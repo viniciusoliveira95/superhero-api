@@ -1,5 +1,19 @@
 import { HeroModel } from '@/contracts/repositories'
 
+export const mockHeroModel = (): HeroModel => ({
+  id: 'any_id',
+  name: 'any_name',
+  description: 'any_description',
+  active: true,
+  rank: 1,
+  createdAt: new Date(2021, 7, 24),
+  updatedAt: new Date(2021, 7, 25),
+  powerstats: {
+    power: 99,
+    intelligence: 60
+  }
+})
+
 export const mockHeroesModel = (): HeroModel[] => ([
   {
     id: 'any_id',
