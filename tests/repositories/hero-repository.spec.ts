@@ -16,6 +16,15 @@ describe('Hero Repository', () => {
     updatedAt: new Date()
   }
 
+  const otherHeroData = {
+    name: 'other_name',
+    description: 'other_description',
+    active: true,
+    rank: 2,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
+
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
@@ -65,6 +74,64 @@ describe('Hero Repository', () => {
     })
   })
 
+  describe('checkByNameAndDiferentId()', () => {
+    it('Should return true if name is used by another hero', async () => {
+      const heroes = await heroCollection.insertMany([heroData, otherHeroData])
+      const exists = await sut.checkByNameAndDiferentId({
+        id: heroes.ops[0]._id,
+        name: heroes.ops[1].name
+      })
+      expect(exists).toBe(true)
+    })
+
+    it('Should return false if name is used by himself', async () => {
+      const heroes = await heroCollection.insertMany([heroData, otherHeroData])
+      const exists = await sut.checkByNameAndDiferentId({
+        id: heroes.ops[0]._id,
+        name: heroes.ops[0].name
+      })
+      expect(exists).toBe(false)
+    })
+
+    it('Should return false if name is not used', async () => {
+      const heroes = await heroCollection.insertMany([heroData, otherHeroData])
+      const exists = await sut.checkByNameAndDiferentId({
+        id: heroes.ops[0]._id,
+        name: 'strange_name'
+      })
+      expect(exists).toBe(false)
+    })
+  })
+
+  describe('checkByRankAndDiferentId()', () => {
+    it('Should return true if rank is used by another hero', async () => {
+      const heroes = await heroCollection.insertMany([heroData, otherHeroData])
+      const exists = await sut.checkByRankAndDiferentId({
+        id: heroes.ops[0]._id,
+        rank: heroes.ops[1].rank
+      })
+      expect(exists).toBe(true)
+    })
+
+    it('Should return false if rank is used by himself', async () => {
+      const heroes = await heroCollection.insertMany([heroData, otherHeroData])
+      const exists = await sut.checkByRankAndDiferentId({
+        id: heroes.ops[0]._id,
+        rank: heroes.ops[0].rank
+      })
+      expect(exists).toBe(false)
+    })
+
+    it('Should return false if rank is not used', async () => {
+      const heroes = await heroCollection.insertMany([heroData, otherHeroData])
+      const exists = await sut.checkByRankAndDiferentId({
+        id: heroes.ops[0]._id,
+        rank: 999
+      })
+      expect(exists).toBe(false)
+    })
+  })
+
   describe('loadAll()', () => {
     it('Should return empty list', async () => {
       const heroes = await sut.loadAll()
@@ -72,14 +139,6 @@ describe('Hero Repository', () => {
     })
 
     it('Should load all heroes on success', async () => {
-      const otherHeroData = {
-        name: 'other_name',
-        description: 'other_description',
-        active: true,
-        rank: 2,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
       const result = await heroCollection.insertMany([heroData, otherHeroData])
       const hero = result.ops[0]
       const strength = {
