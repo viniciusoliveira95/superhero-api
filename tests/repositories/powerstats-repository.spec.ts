@@ -6,6 +6,22 @@ import FakeObjectId from 'bson-objectid'
 describe('Hero Repository', () => {
   let powerstatsCollection: Collection
   let sut: PowerstatsRepository
+  const heroId = new FakeObjectId()
+  const powerstatsData1 = {
+    heroId,
+    name: 'any_name',
+    value: 10,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
+
+  const powerstatsData2 = {
+    heroId,
+    name: 'other_name',
+    value: 20,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
 
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -29,6 +45,22 @@ describe('Hero Repository', () => {
         value: 10
       })
       expect(created).toBe(true)
+    })
+  })
+
+  describe('loadAll()', () => {
+    it('Should return a list of powerstats on success', async () => {
+      await powerstatsCollection.insertMany([powerstatsData1, powerstatsData2])
+      const powerstats = await sut.loadAll(heroId.toHexString())
+      expect(powerstats[0].id).toBeTruthy()
+      expect(powerstats[0].name).toEqual('any_name')
+      expect(powerstats[1].id).toBeTruthy()
+      expect(powerstats[1].name).toEqual('other_name')
+    })
+
+    it('Should return a empty list when hero dont have any powerstats', async () => {
+      const powerstats = await sut.loadAll(heroId.toHexString())
+      expect(powerstats.length).toBe(0)
     })
   })
 })
