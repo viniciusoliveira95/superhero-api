@@ -74,7 +74,7 @@ describe('Powerstats Routes', () => {
     })
   })
 
-  describe('GET /heroes/:heroId/powerstats/', () => {
+  describe('GET /heroes/:heroId/powerstats/:powerstatsId', () => {
     it('Should reuturn 200 on success', async () => {
       const hero = await heroesCollection.insertOne(heroData)
       const heroId: string = hero.ops[0]._id
@@ -93,6 +93,25 @@ describe('Powerstats Routes', () => {
       const heroId: string = hero.ops[0]._id
       await request(app)
         .get(`/api/heroes/${heroId}/powerstats/${new FakeObjectId().toHexString()}`)
+        .expect(204)
+    })
+  })
+
+  describe('GET /heroes/:heroId/powerstats/:powerstatsId', () => {
+    it('Should reuturn 204 when update a hero', async () => {
+      const hero = await heroesCollection.insertOne(heroData)
+      const heroId: string = hero.ops[0]._id
+      const powerstats = await powerstatsCollection.insertOne({
+        ...powerstatsData,
+        heroId
+      })
+      const powerstatsDataId: string = powerstats.ops[0]._id
+      await request(app)
+        .put(`/api/heroes/${heroId}/powerstats/${powerstatsDataId}`)
+        .send({
+          name: 'updated_name',
+          value: 100
+        })
         .expect(204)
     })
   })
