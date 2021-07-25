@@ -207,7 +207,7 @@ describe('Hero Repository', () => {
       const res = await heroCollection.insertOne(heroData)
       const updateHero = {
         ...heroData,
-        id: res.ops[0]._id,
+        heroId: res.ops[0]._id,
         name: 'updated_name',
         description: 'updated_description'
       }
@@ -216,7 +216,7 @@ describe('Hero Repository', () => {
     })
 
     it('Should return false when on update fails', async () => {
-      const hero = await sut.update({ ...heroData, id: new FakeObjectId().toHexString() })
+      const hero = await sut.update({ ...heroData, heroId: new FakeObjectId().toHexString() })
       expect(hero).toBe(false)
     })
   })

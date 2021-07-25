@@ -11,7 +11,7 @@ describe('UpdateHeroService', () => {
   let checkByRankAndDiferentIdRepository: MockProxy<ICheckByRankAndDiferentIdRepository>
   let sut: UpdateHeroService
   const hero: IUpdateHero.Params = {
-    id: 'any_id',
+    heroId: 'any_id',
     name: 'any_name',
     description: 'any_description',
     rank: 1,
@@ -43,7 +43,7 @@ describe('UpdateHeroService', () => {
   it('Should call checkByNameAndDiferentIdRepository with correct name', async () => {
     await sut.execute(hero)
     expect(checkByNameAndDiferentIdRepository.checkByNameAndDiferentId).toHaveBeenCalledTimes(1)
-    expect(checkByNameAndDiferentIdRepository.checkByNameAndDiferentId).toBeCalledWith({ id: hero.id, name: hero.name })
+    expect(checkByNameAndDiferentIdRepository.checkByNameAndDiferentId).toBeCalledWith({ id: hero.heroId, name: hero.name })
   })
 
   it('Should throw if checkByNameAndDiferentIdRepository throws', async () => {
@@ -54,7 +54,7 @@ describe('UpdateHeroService', () => {
 
   it('Should call checkByRankAndDiferentIdRepository with correct rank', async () => {
     await sut.execute(hero)
-    expect(checkByRankAndDiferentIdRepository.checkByRankAndDiferentId).toBeCalledWith({ id: hero.id, rank: hero.rank })
+    expect(checkByRankAndDiferentIdRepository.checkByRankAndDiferentId).toBeCalledWith({ id: hero.heroId, rank: hero.rank })
     expect(checkByRankAndDiferentIdRepository.checkByRankAndDiferentId).toHaveBeenCalledTimes(1)
   })
 

@@ -15,11 +15,11 @@ export class UpdateHeroService implements IUpdateHero {
       rankAlreadyUsed: false
     }
     result.nameAlreadyUsed = await this.checkByNameAndDiferentIdRepository.checkByNameAndDiferentId({
-      id: heroParam.id,
+      id: heroParam.heroId,
       name: heroParam.name
     })
     result.rankAlreadyUsed = await this.checkByRankAndDiferentIdRepository.checkByRankAndDiferentId({
-      id: heroParam.id,
+      id: heroParam.heroId,
       rank: heroParam.rank
     })
     if (!result.nameAlreadyUsed && !result.rankAlreadyUsed) {

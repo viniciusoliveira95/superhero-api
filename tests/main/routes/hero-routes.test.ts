@@ -74,6 +74,22 @@ describe('Hero Routes', () => {
     })
   })
 
+  describe('PUT /heroes/:heroId', () => {
+    it('Should reuturn 204 when update a hero', async () => {
+      const hero = await heroesCollection.insertOne(heroData)
+      const heroId: string = hero.ops[0]._id
+      await request(app)
+        .put(`/api/heroes/${heroId}`)
+        .send({
+          name: 'updated_name',
+          description: 'updated_description',
+          rank: 2,
+          active: true
+        })
+        .expect(204)
+    })
+  })
+
   describe('DELETE /heroes/:heroId', () => {
     it('Should reuturn 403 when heroId is invalid', async () => {
       await request(app)

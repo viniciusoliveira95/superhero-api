@@ -4,7 +4,7 @@ export interface IUpdateHeroRepository {
 
 export namespace IUpdateHeroRepository {
   export type Params = {
-    id: string
+    heroId: string
     name: string
     description: string
     rank: number

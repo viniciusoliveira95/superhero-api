@@ -35,7 +35,7 @@ export class UpdateHeroController implements IController {
 
 export namespace UpdateHeroController {
   export type Request = {
-    id: string
+    heroId: string
     name: string
     description: string
     rank: number

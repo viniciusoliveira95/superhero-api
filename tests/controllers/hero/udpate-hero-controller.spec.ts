@@ -11,7 +11,7 @@ describe('UpdateHero Controller', () => {
   let updateHeroService: MockProxy<IUpdateHero>
   let heroRequestValidation: MockProxy<IHeroRequestValidation>
   const params: UpdateHeroController.Request = {
-    id: 'any_id',
+    heroId: 'any_id',
     name: 'any_name',
     description: 'any_description',
     rank: 1,

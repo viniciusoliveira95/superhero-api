@@ -169,7 +169,7 @@ ICheckByRankAndDiferentIdRepository {
     const heroCollection = await MongoHelper.getCollection('heroes')
     const isUpdated = await heroCollection.findOneAndUpdate(
       {
-        _id: new ObjectID(heroData.id)
+        _id: new ObjectID(heroData.heroId)
       }, {
         $set: {
           name: heroData.name,
