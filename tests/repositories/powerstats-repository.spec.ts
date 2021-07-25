@@ -63,4 +63,25 @@ describe('Hero Repository', () => {
       expect(powerstats.length).toBe(0)
     })
   })
+
+  describe('loadById()', () => {
+    it('Should return a powerstats on success', async () => {
+      const result = await powerstatsCollection.insertOne(powerstatsData1)
+      const powerstats = await sut.loadById({
+        powerstatsId: result.ops[0]._id,
+        heroId: heroId.toHexString()
+      })
+      expect(powerstats.id).toBeTruthy()
+      expect(powerstats.name).toBe(powerstatsData1.name)
+      expect(powerstats.value).toBe(powerstatsData1.value)
+    })
+
+    it('Should return null when dont find a powerstats', async () => {
+      const powerstats = await sut.loadById({
+        heroId: new FakeObjectId().toHexString(),
+        powerstatsId: new FakeObjectId().toHexString()
+      })
+      expect(powerstats).toBe(null)
+    })
+  })
 })

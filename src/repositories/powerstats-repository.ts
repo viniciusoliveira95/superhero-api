@@ -1,6 +1,7 @@
 import {
   ICreatePowerstatsRepository,
-  ILoadAllPowerstatsRepository
+  ILoadAllPowerstatsRepository,
+  ILoadByIdPowerstatsRepository
 }
   from '@/contracts/repositories/powerstats'
 import { MongoHelper } from './mongo-helper'
@@ -10,7 +11,8 @@ import { QueryBuilder } from '@/contracts/repositories/query-builder'
 
 export class PowerstatsRepository implements
 ICreatePowerstatsRepository,
-ILoadAllPowerstatsRepository {
+ILoadAllPowerstatsRepository,
+ILoadByIdPowerstatsRepository {
   async create (powerstatsData: ICreatePowerstatsRepository.Params): Promise<ICreatePowerstatsRepository.Result> {
     const powerstatsCollection = await MongoHelper.getCollection('powerstats')
     const result = await powerstatsCollection.insertOne({
@@ -41,5 +43,14 @@ ILoadAllPowerstatsRepository {
       .build()
     const powerstats = await powerstatsCollection.aggregate(query).toArray()
     return MongoHelper.mapCollection(powerstats)
+  }
+
+  async loadById (data: ILoadByIdPowerstatsRepository.Param): Promise<ILoadByIdPowerstatsRepository.Result> {
+    const powerstatsCollection = await MongoHelper.getCollection('powerstats')
+    const result = await powerstatsCollection.findOne({
+      _id: new ObjectID(data.powerstatsId),
+      heroId: new ObjectID(data.heroId)
+    })
+    return result && MongoHelper.map(result)
   }
 }
