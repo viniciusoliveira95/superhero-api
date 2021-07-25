@@ -41,4 +41,14 @@ describe('Powerstats Routes', () => {
         .expect(204)
     })
   })
+
+  describe('GET /heroes/:heroId/powerstats', () => {
+    it('Should reuturn 200 when create a powerstats', async () => {
+      const hero = await heroesCollection.insertOne(heroData)
+      const heroId: string = hero.ops[0]._id
+      await request(app)
+        .get(`/api/heroes/${heroId}/powerstats`)
+        .expect(200)
+    })
+  })
 })
