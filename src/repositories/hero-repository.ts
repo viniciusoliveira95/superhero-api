@@ -5,7 +5,9 @@ import {
   ILoadAllHeroesRepository,
   ILoadHeroByIdRepository,
   IDeleteHeroByIdRepository,
-  IUpdateHeroRepository
+  IUpdateHeroRepository,
+  ICheckByNameAndDiferentIdRepository,
+  ICheckByRankAndDiferentIdRepository
 }
   from '@/contracts/repositories/hero'
 import { QueryBuilder } from '@/contracts/repositories/query-builder'
@@ -20,7 +22,9 @@ ICheckHeroByRankRepository,
 ILoadAllHeroesRepository,
 ILoadHeroByIdRepository,
 IDeleteHeroByIdRepository,
-IUpdateHeroRepository {
+IUpdateHeroRepository,
+ICheckByNameAndDiferentIdRepository,
+ICheckByRankAndDiferentIdRepository {
   async create (heroData: ICreateHeroRepository.Params): Promise<ICreateHeroRepository.Result> {
     const heroCollection = await MongoHelper.getCollection('heroes')
     const result = await heroCollection.insertOne({
@@ -29,6 +33,34 @@ IUpdateHeroRepository {
       updatedAt: new Date()
     })
     return result.ops[0] !== null
+  }
+
+  async checkByNameAndDiferentId (data: ICheckByNameAndDiferentIdRepository.Params): Promise<ICheckByNameAndDiferentIdRepository.Result> {
+    const heroCollection = await MongoHelper.getCollection('heroes')
+    const hero = await heroCollection.findOne(
+      {
+        _id: { $ne: new ObjectID(data.id) },
+        name: data.name
+      }, {
+        projection: {
+          _id: 1
+        }
+      })
+    return hero !== null
+  }
+
+  async checkByRankAndDiferentId (data: ICheckByRankAndDiferentIdRepository.Params): Promise<ICheckByRankAndDiferentIdRepository.Result> {
+    const heroCollection = await MongoHelper.getCollection('heroes')
+    const hero = await heroCollection.findOne(
+      {
+        _id: { $ne: new ObjectID(data.id) },
+        rank: data.rank
+      }, {
+        projection: {
+          _id: 1
+        }
+      })
+    return hero !== null
   }
 
   async checkByName (name: ICheckHeroByNameRepository.Params): Promise<ICheckHeroByNameRepository.Result> {

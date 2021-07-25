@@ -22,9 +22,6 @@ describe('CreateHeroService', () => {
     checkHeroByNameRepository = mock()
     checkHeroByRankRepository = mock()
     sut = new CreateHeroService(createHeroRepository, checkHeroByNameRepository, checkHeroByRankRepository)
-    createHeroRepository.create.mockResolvedValue(false)
-    checkHeroByNameRepository.checkByName.mockResolvedValue(false)
-    checkHeroByRankRepository.checkByRank.mockResolvedValue(false)
   })
 
   it('Should call createHeroRepository with correct values', async () => {
@@ -63,36 +60,31 @@ describe('CreateHeroService', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  it('Should result.created return true if name and rank is not used', async () => {
-    createHeroRepository.create.mockResolvedValueOnce(true)
-    const result = await sut.execute(hero)
-    expect(result.created).toBe(true)
-    expect(result.nameAlreadyUsed).toBe(false)
-    expect(result.rankAlreadyUsed).toBe(false)
+  it('Should call createHeroRepository when name and rank is not been used', async () => {
+    checkHeroByNameRepository.checkByName.mockResolvedValueOnce(false)
+    checkHeroByRankRepository.checkByRank.mockResolvedValueOnce(false)
+    await sut.execute(hero)
+    expect(createHeroRepository.create).toHaveBeenCalledTimes(1)
   })
 
-  it('Should result.created return false if name is used', async () => {
-    checkHeroByNameRepository.checkByName.mockResolvedValueOnce(true)
-    const result = await sut.execute(hero)
-    expect(result.created).toBe(false)
-    expect(result.nameAlreadyUsed).toBe(true)
-    expect(result.rankAlreadyUsed).toBe(false)
-  })
-
-  it('Should result.created return false if rank is used', async () => {
-    checkHeroByRankRepository.checkByRank.mockResolvedValueOnce(true)
-    const result = await sut.execute(hero)
-    expect(result.created).toBe(false)
-    expect(result.nameAlreadyUsed).toBe(false)
-    expect(result.rankAlreadyUsed).toBe(true)
-  })
-
-  it('Should result.created return false if name and rank is used', async () => {
+  it('Should not call createHeroRepository when name and rank is used', async () => {
     checkHeroByNameRepository.checkByName.mockResolvedValueOnce(true)
     checkHeroByRankRepository.checkByRank.mockResolvedValueOnce(true)
-    const result = await sut.execute(hero)
-    expect(result.created).toBe(false)
-    expect(result.nameAlreadyUsed).toBe(true)
-    expect(result.rankAlreadyUsed).toBe(true)
+    await sut.execute(hero)
+    expect(createHeroRepository.create).toHaveBeenCalledTimes(0)
+  })
+
+  it('Should not call createHeroRepository when name is used', async () => {
+    checkHeroByNameRepository.checkByName.mockResolvedValueOnce(true)
+    checkHeroByRankRepository.checkByRank.mockResolvedValueOnce(false)
+    await sut.execute(hero)
+    expect(createHeroRepository.create).toHaveBeenCalledTimes(0)
+  })
+
+  it('Should not call createHeroRepository when rank is used', async () => {
+    checkHeroByNameRepository.checkByName.mockResolvedValueOnce(false)
+    checkHeroByRankRepository.checkByRank.mockResolvedValueOnce(true)
+    await sut.execute(hero)
+    expect(createHeroRepository.create).toHaveBeenCalledTimes(0)
   })
 })
