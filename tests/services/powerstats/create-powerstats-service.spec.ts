@@ -48,7 +48,7 @@ describe('CreatePowerstatsService', () => {
     expect(createPowerstatsRepository.create).toHaveBeenCalledWith(powerstatsParam)
   })
 
-  it('Should not call createHeroRepository checkHeroByIdRepository returns false', async () => {
+  it('Should not call createHeroRepository when checkHeroByIdRepository returns false', async () => {
     checkHeroByIdRepository.checkById.mockResolvedValueOnce(false)
     await sut.execute(powerstatsParam)
     expect(createPowerstatsRepository.create).toHaveBeenCalledTimes(0)
