@@ -1,7 +1,8 @@
 import {
   ICreatePowerstatsRepository,
   ILoadAllPowerstatsRepository,
-  ILoadByIdPowerstatsRepository
+  ILoadByIdPowerstatsRepository,
+  IUpdatePowerstatsRepository
 }
   from '@/contracts/repositories/powerstats'
 import { MongoHelper } from './mongo-helper'
@@ -12,7 +13,8 @@ import { QueryBuilder } from '@/contracts/repositories/query-builder'
 export class PowerstatsRepository implements
 ICreatePowerstatsRepository,
 ILoadAllPowerstatsRepository,
-ILoadByIdPowerstatsRepository {
+ILoadByIdPowerstatsRepository,
+IUpdatePowerstatsRepository {
   async create (powerstatsData: ICreatePowerstatsRepository.Params): Promise<ICreatePowerstatsRepository.Result> {
     const powerstatsCollection = await MongoHelper.getCollection('powerstats')
     const result = await powerstatsCollection.insertOne({
@@ -52,5 +54,22 @@ ILoadByIdPowerstatsRepository {
       heroId: new ObjectID(data.heroId)
     })
     return result && MongoHelper.map(result)
+  }
+
+  async update (data: IUpdatePowerstatsRepository.Params): Promise<IUpdatePowerstatsRepository.Result> {
+    const powerstatsCollection = await MongoHelper.getCollection('powerstats')
+    const isUpdated = await powerstatsCollection.findOneAndUpdate(
+      {
+        _id: new ObjectID(data.powerstatsId),
+        heroId: new ObjectID(data.heroId)
+      }, {
+        $set: {
+          name: data.name,
+          value: data.value,
+          updatedAt: new Date()
+        }
+      }
+    )
+    return isUpdated.value !== null
   }
 }

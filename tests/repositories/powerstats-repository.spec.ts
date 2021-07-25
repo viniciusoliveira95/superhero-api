@@ -84,4 +84,28 @@ describe('Powerstats Repository', () => {
       expect(powerstats).toBe(null)
     })
   })
+
+  describe('update()', () => {
+    it('Should return true on update success', async () => {
+      const result = await powerstatsCollection.insertOne(powerstatsData1)
+      const updateHero = {
+        heroId: heroId.toHexString(),
+        powerstatsId: result.ops[0]._id,
+        name: 'updated_name',
+        value: 50
+      }
+      const isUpdated = await sut.update(updateHero)
+      expect(isUpdated).toBe(true)
+    })
+
+    it('Should return false when on update fails', async () => {
+      const hero = await sut.update({
+        heroId: heroId.toHexString(),
+        powerstatsId: new FakeObjectId().toHexString(),
+        name: 'any_name',
+        value: 0
+      })
+      expect(hero).toBe(false)
+    })
+  })
 })

@@ -1,5 +1,5 @@
 export interface ICreatePowerstatsRepository {
-  create: (heroData: ICreatePowerstatsRepository.Params) => Promise<ICreatePowerstatsRepository.Result>
+  create: (powerStatsData: ICreatePowerstatsRepository.Params) => Promise<ICreatePowerstatsRepository.Result>
 }
 
 export namespace ICreatePowerstatsRepository {
