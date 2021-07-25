@@ -48,6 +48,19 @@ describe('Hero Repository', () => {
     })
   })
 
+  describe('checkById()', () => {
+    it('Should return true if hero exists', async () => {
+      const hero = await heroCollection.insertOne(heroData)
+      const exists = await sut.checkById(hero.ops[0]._id)
+      expect(exists).toBe(true)
+    })
+
+    it('Should return false if hero does not exists', async () => {
+      const exists = await sut.checkById(new FakeObjectId().toHexString())
+      expect(exists).toBe(false)
+    })
+  })
+
   describe('checkByName()', () => {
     it('Should return true if name is already used', async () => {
       await heroCollection.insertOne(heroData)

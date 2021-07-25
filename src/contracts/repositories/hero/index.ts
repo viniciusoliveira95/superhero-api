@@ -1,5 +1,6 @@
 export * from './check-by-name-and-diferent-id-repository'
 export * from './check-by-rank-and-diferent-id-repository'
+export * from './check-hero-by-id-repository'
 export * from './check-hero-by-name-repository'
 export * from './check-hero-by-rank-repository'
 export * from './create-hero-repository'

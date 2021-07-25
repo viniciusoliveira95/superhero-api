@@ -7,7 +7,8 @@ import {
   IDeleteHeroByIdRepository,
   IUpdateHeroRepository,
   ICheckByNameAndDiferentIdRepository,
-  ICheckByRankAndDiferentIdRepository
+  ICheckByRankAndDiferentIdRepository,
+  ICheckHeroByIdRepository
 }
   from '@/contracts/repositories/hero'
 import { QueryBuilder } from '@/contracts/repositories/query-builder'
@@ -17,6 +18,7 @@ import { ObjectID } from 'mongodb'
 
 export class HeroRepository implements
 ICreateHeroRepository,
+ICheckHeroByIdRepository,
 ICheckHeroByNameRepository,
 ICheckHeroByRankRepository,
 ILoadAllHeroesRepository,
@@ -60,6 +62,16 @@ ICheckByRankAndDiferentIdRepository {
           _id: 1
         }
       })
+    return hero !== null
+  }
+
+  async checkById (id: ICheckHeroByIdRepository.Params): Promise<ICheckHeroByIdRepository.Result> {
+    const heroCollection = await MongoHelper.getCollection('heroes')
+    const hero = await heroCollection.findOne({ _id: new ObjectID(id) }, {
+      projection: {
+        _id: 1
+      }
+    })
     return hero !== null
   }
 
