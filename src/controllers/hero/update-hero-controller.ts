@@ -2,6 +2,7 @@ import { IController } from '@/contracts/controllers/controller'
 import { HttpResponse } from '@/contracts/http/http'
 import { IUpdateHero } from '@/contracts/services/hero'
 import { IHeroRequestValidation } from '@/contracts/validations'
+import { ParamError } from '@/errors'
 import { PropertyInUseError } from '@/errors/property-in-use-error'
 import { badRequest, forbidden, noContent, serverError } from '../http-helper'
 
@@ -18,15 +19,16 @@ export class UpdateHeroController implements IController {
         return badRequest(requestValidationError)
       }
       const response = await this.updateHeroService.execute(request)
+      if (!response.updated) {
+        return forbidden(new ParamError(['heroId']))
+      }
       if (response.nameAlreadyUsed || response.rankAlreadyUsed) {
         const propertiesName: string[] = []
         response.nameAlreadyUsed && propertiesName.push('name')
         response.rankAlreadyUsed && propertiesName.push('rank')
         return forbidden(new PropertyInUseError(propertiesName))
       }
-      if (response.updated) {
-        return noContent()
-      }
+      return noContent()
     } catch (error) {
       return serverError(error)
     }

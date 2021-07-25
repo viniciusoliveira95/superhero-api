@@ -15,6 +15,12 @@ describe('Hero Routes', () => {
     createdAt: new Date(),
     updatedAt: new Date()
   }
+  const heroUpdateData = {
+    name: 'updated_name',
+    description: 'updated_description',
+    rank: 2,
+    active: true
+  }
 
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -80,13 +86,15 @@ describe('Hero Routes', () => {
       const heroId: string = hero.ops[0]._id
       await request(app)
         .put(`/api/heroes/${heroId}`)
-        .send({
-          name: 'updated_name',
-          description: 'updated_description',
-          rank: 2,
-          active: true
-        })
+        .send(heroUpdateData)
         .expect(204)
+    })
+
+    it('Should reuturn 403 when heroId is invalid', async () => {
+      await request(app)
+        .put(`/api/heroes/${new FakeObjectId().toHexString()}`)
+        .send(heroUpdateData)
+        .expect(403)
     })
   })
 

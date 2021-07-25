@@ -18,7 +18,7 @@ describe('UpdateHero Controller', () => {
     active: true
   }
   const serviceResponse: IUpdateHero.Result = {
-    updated: false,
+    updated: true,
     nameAlreadyUsed: false,
     rankAlreadyUsed: false
   }
@@ -44,6 +44,12 @@ describe('UpdateHero Controller', () => {
     updateHeroService.execute.mockRejectedValueOnce(new Error())
     const httpResponse = await sut.handle(params)
     expect(httpResponse).toEqual(serverError(new ServerError(null)))
+  })
+
+  it('Should return 403 if updated is false', async () => {
+    updateHeroService.execute.mockResolvedValueOnce({ ...serviceResponse, updated: false })
+    const httpResponse = await sut.handle(params)
+    expect(httpResponse).toEqual(forbidden(new ParamError(['heroId'])))
   })
 
   it('Should return 403 if nameAlreadyUsed is true', async () => {
