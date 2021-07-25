@@ -2,7 +2,7 @@ import { IController } from '@/contracts/controllers/controller'
 import { HttpResponse } from '@/contracts/http/http'
 import { ILoadByIdPowerstats } from '@/contracts/services/powerstats'
 import { HeroNotExistsError } from '@/errors'
-import { forbidden, serverError, ok } from '../http-helper'
+import { forbidden, serverError, ok, noContent } from '../http-helper'
 
 export class LoadByIdPowerStatsController implements IController {
   constructor (
@@ -15,7 +15,10 @@ export class LoadByIdPowerStatsController implements IController {
       if (!response.heroExists) {
         return forbidden(new HeroNotExistsError())
       }
-      return ok(response.powerstats)
+      if (response.powerstats) {
+        return ok(response.powerstats)
+      }
+      return noContent()
     } catch (error) {
       return serverError(error)
     }

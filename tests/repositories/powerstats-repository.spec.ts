@@ -3,7 +3,7 @@ import { PowerstatsRepository, MongoHelper } from '@/repositories'
 import { Collection } from 'mongodb'
 import FakeObjectId from 'bson-objectid'
 
-describe('Hero Repository', () => {
+describe('Powerstats Repository', () => {
   let powerstatsCollection: Collection
   let sut: PowerstatsRepository
   const heroId = new FakeObjectId()
