@@ -1,5 +1,6 @@
 import {
   ICreatePowerstatsRepository,
+  IDeletePowerstatsRepository,
   ILoadAllPowerstatsRepository,
   ILoadByIdPowerstatsRepository,
   IUpdatePowerstatsRepository
@@ -14,7 +15,8 @@ export class PowerstatsRepository implements
 ICreatePowerstatsRepository,
 ILoadAllPowerstatsRepository,
 ILoadByIdPowerstatsRepository,
-IUpdatePowerstatsRepository {
+IUpdatePowerstatsRepository,
+IDeletePowerstatsRepository {
   async create (powerstatsData: ICreatePowerstatsRepository.Params): Promise<ICreatePowerstatsRepository.Result> {
     const powerstatsCollection = await MongoHelper.getCollection('powerstats')
     const result = await powerstatsCollection.insertOne({
@@ -24,6 +26,15 @@ IUpdatePowerstatsRepository {
       updatedAt: new Date()
     })
     return result.ops[0] !== null
+  }
+
+  async delete (data: IDeletePowerstatsRepository.Param): Promise<IDeletePowerstatsRepository.Result> {
+    const heroCollection = await MongoHelper.getCollection('powerstats')
+    const isDeleted = await heroCollection.findOneAndDelete({
+      _id: new ObjectID(data.powerstatsId),
+      heroId: new ObjectID(data.heroId)
+    })
+    return isDeleted.value !== null
   }
 
   async loadAll (heroId: ILoadAllPowerstatsRepository.Param): Promise<ILoadAllPowerstatsRepository.Result> {

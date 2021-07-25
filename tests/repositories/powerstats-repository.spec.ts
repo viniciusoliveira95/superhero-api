@@ -48,6 +48,25 @@ describe('Powerstats Repository', () => {
     })
   })
 
+  describe('delete()', () => {
+    it('Should return true when on success', async () => {
+      const res = await powerstatsCollection.insertOne(powerstatsData1)
+      const isDeleted = await sut.delete({
+        heroId: heroId.toHexString(),
+        powerstatsId: res.ops[0]._id
+      })
+      expect(isDeleted).toBe(true)
+    })
+
+    it('Should return false when not find a powerstats to delete', async () => {
+      const hero = await sut.delete({
+        heroId: new FakeObjectId().toHexString(),
+        powerstatsId: new FakeObjectId().toHexString()
+      })
+      expect(hero).toBe(false)
+    })
+  })
+
   describe('loadAll()', () => {
     it('Should return a list of powerstats on success', async () => {
       await powerstatsCollection.insertMany([powerstatsData1, powerstatsData2])
