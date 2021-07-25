@@ -4,7 +4,8 @@ import {
   ICreateHeroRepository,
   ILoadAllHeroesRepository,
   ILoadHeroByIdRepository,
-  IDeleteHeroByIdRepository
+  IDeleteHeroByIdRepository,
+  IUpdateHeroRepository
 }
   from '@/contracts/repositories/hero'
 import { QueryBuilder } from '@/contracts/repositories/query-builder'
@@ -18,7 +19,8 @@ ICheckHeroByNameRepository,
 ICheckHeroByRankRepository,
 ILoadAllHeroesRepository,
 ILoadHeroByIdRepository,
-IDeleteHeroByIdRepository {
+IDeleteHeroByIdRepository,
+IUpdateHeroRepository {
   async create (heroData: ICreateHeroRepository.Params): Promise<ICreateHeroRepository.Result> {
     const heroCollection = await MongoHelper.getCollection('heroes')
     const result = await heroCollection.insertOne({
@@ -129,5 +131,23 @@ IDeleteHeroByIdRepository {
       .build()
     const hero = await heroCollection.aggregate(query).toArray()
     return hero.length ? MongoHelper.map(hero[0]) : null
+  }
+
+  async update (heroData: IUpdateHeroRepository.Params): Promise<boolean> {
+    const heroCollection = await MongoHelper.getCollection('heroes')
+    const isUpdated = await heroCollection.findOneAndUpdate(
+      {
+        _id: new ObjectID(heroData.id)
+      }, {
+        $set: {
+          name: heroData.name,
+          description: heroData.description,
+          rank: heroData.rank,
+          active: heroData.active,
+          updatedAt: new Date()
+        }
+      }
+    )
+    return isUpdated.value !== null
   }
 }

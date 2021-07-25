@@ -1,10 +1,13 @@
-import { ICreateHero } from '@/contracts/services'
-
 export interface ICreateHeroRepository {
-  create: (accountData: ICreateHeroRepository.Params) => Promise<ICreateHeroRepository.Result>
+  create: (heroData: ICreateHeroRepository.Params) => Promise<ICreateHeroRepository.Result>
 }
 
 export namespace ICreateHeroRepository {
-  export type Params = ICreateHero.Params
+  export type Params = {
+    name: string
+    description: string
+    rank: number
+    active: boolean
+  }
   export type Result = boolean
 }
