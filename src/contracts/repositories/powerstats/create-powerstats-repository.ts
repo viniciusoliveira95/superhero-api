@@ -4,6 +4,7 @@ export interface ICreatePowerstatsRepository {
 
 export namespace ICreatePowerstatsRepository {
   export type Params = {
+    heroId: string
     name: string
     value: number
   }

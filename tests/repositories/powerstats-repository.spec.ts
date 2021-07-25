@@ -1,6 +1,7 @@
 import { PowerstatsRepository, MongoHelper } from '@/repositories'
 
 import { Collection } from 'mongodb'
+import FakeObjectId from 'bson-objectid'
 
 describe('Hero Repository', () => {
   let powerstatsCollection: Collection
@@ -23,6 +24,7 @@ describe('Hero Repository', () => {
   describe('create()', () => {
     it('Should return true on create success', async () => {
       const created = await sut.create({
+        heroId: new FakeObjectId().toHexString(),
         name: 'any_name',
         value: 10
       })
