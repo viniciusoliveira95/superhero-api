@@ -1,6 +1,7 @@
 import { adaptRoute } from '@/main/adapters'
 import {
   makeCreatePowerstatsController,
+  makeDeletePowerstatsController,
   makeLoadAllPowerstatsController,
   makeLoadByIdPowerstatsController,
   makeUpdatePowerstatsController
@@ -13,4 +14,5 @@ export default (router: Router): void => {
   router.get('/heroes/:heroId/powerstats', adaptRoute(makeLoadAllPowerstatsController()))
   router.get('/heroes/:heroId/powerstats/:powerstatsId', adaptRoute(makeLoadByIdPowerstatsController()))
   router.put('/heroes/:heroId/powerstats/:powerstatsId', adaptRoute(makeUpdatePowerstatsController()))
+  router.delete('/heroes/:heroId/powerstats/:powerstatsId', adaptRoute(makeDeletePowerstatsController()))
 }

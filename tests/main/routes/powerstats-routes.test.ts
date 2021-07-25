@@ -97,8 +97,8 @@ describe('Powerstats Routes', () => {
     })
   })
 
-  describe('GET /heroes/:heroId/powerstats/:powerstatsId', () => {
-    it('Should reuturn 204 when update a hero', async () => {
+  describe('UPDATE /heroes/:heroId/powerstats/:powerstatsId', () => {
+    it('Should reuturn 204 when update a powerstats', async () => {
       const hero = await heroesCollection.insertOne(heroData)
       const heroId: string = hero.ops[0]._id
       const powerstats = await powerstatsCollection.insertOne({
@@ -112,6 +112,21 @@ describe('Powerstats Routes', () => {
           name: 'updated_name',
           value: 100
         })
+        .expect(204)
+    })
+  })
+
+  describe('DELETE /heroes/:heroId/powerstats/:powerstatsId', () => {
+    it('Should reuturn 204 when delete a powerstats', async () => {
+      const hero = await heroesCollection.insertOne(heroData)
+      const heroId: string = hero.ops[0]._id
+      const powerstats = await powerstatsCollection.insertOne({
+        ...powerstatsData,
+        heroId
+      })
+      const powerstatsDataId: string = powerstats.ops[0]._id
+      await request(app)
+        .delete(`/api/heroes/${heroId}/powerstats/${powerstatsDataId}`)
         .expect(204)
     })
   })
