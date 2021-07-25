@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc -p tsconfig-build.json",
+    "build": "npm run clean && npx tsc -p tsconfig-build.json",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
     "up": "npm run build && docker-compose up -d",
     "down": "docker-compose down",

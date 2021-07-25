@@ -43,7 +43,12 @@ describe('Hero Repository', () => {
 
   describe('create()', () => {
     it('Should return true on create success', async () => {
-      const created = await sut.create(heroData)
+      const created = await sut.create({
+        name: 'any_name',
+        description: 'any_description',
+        active: true,
+        rank: 1
+      })
       expect(created).toBe(true)
     })
   })
